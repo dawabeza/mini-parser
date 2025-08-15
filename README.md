@@ -1,6 +1,6 @@
 # Mini Arithmetic Parser
 
-A small parser/interpreter built from scratch in C that evaluates **arithmetic expressions** and supports **variables, constants, and functions**. This project was designed as a personal learning experiment to explore parsing, expression evaluation, and building interpreters from the ground up.
+A small parser/interpreter built from scratch in C that evaluates **arithmetic expressions** and supports **variables, constants, and functions**. This project was created as a personal learning experiment and may **not handle all edge cases**. Feedback and contributions are welcome!
 
 ---
 

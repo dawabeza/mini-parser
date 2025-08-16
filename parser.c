@@ -16,23 +16,30 @@ struct symb_const symb_map[] = {
             {"phi", 1.61803398874989484820L}
   };
 
+struct statement_list *statement_head, *statement_tail;
+
+int prev_statement = 0;
+
 struct var_name_val  var_name_map[MAX_VAR_COUNT];
 //pointer for  above map for tracking back position
 int var_namep = 0;
 
 //here get input with ignoring white space
-int get_expr(char *expr) {
+int get_statement(char *expr) {
     int c;
     int i = 0;
 
-    while (i < MAX_OPERAND && (c = getchar()) != EOF && c != '\n') {
-        if (!isspace(c)) {
+    while (i < MAX_OPERAND && (c = getchar()) != EOF) {
+        if (!isspace(c) && c != '\n') {
+            if (c == ';') {
+                expr[i] = '\0';
+                return i;
+            }
             expr[i++] = c;
         }
     }
 
-    expr[i] = '\0';
-    return i;
+    return -1;
 }
 
 // Converts the input expression into a linked list of operator nodes
@@ -341,6 +348,8 @@ void perform_operation(struct op_node *cur, long double *result)
             break;
         case OPERATOR_MINUS: 
             *result = cur->prev->value - cur->next->value; 
+        case OPERATOR_EXPONENT:
+            *result = pow(cur->prev->value, cur->next->value);
             break;
         case OPERATOR_EQUAL: 
             if (cur->prev->op_type != VAR) {

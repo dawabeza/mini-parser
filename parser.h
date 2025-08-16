@@ -18,7 +18,11 @@ struct var_name_val {
     long double val;
 };
 
-int get_expr(char *expr);
+struct statement_list {
+    int statement_low;
+    int statement_high;
+};
+int get_statement(char *expr);
 void get_op_list(char *expr, struct op_node **head, struct op_node **tail, int start, int end);
 
 int handle_var(char *expr, struct op_node **head, struct op_node **tail, int start, int end);

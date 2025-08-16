@@ -12,20 +12,21 @@ long double evaluate_expr(struct op_node **head, struct op_node **tail) {
     // Insert implicit multiplications (like 2(3) -> 2*3)
     standardize_expr(head, tail, cur);
 
-
     // Evaluate all nested expressions recursively
     simplify_nested(head, tail, cur);
 
-    // Handle unary operators like +, -
+    // Handle unary operator and right associative operators
     cur = *tail;
     simplify_func(head, tail, cur);
     simplify_unary(head, tail, cur, OPERATOR_PLUS | OPERATOR_MINUS);
 
+    simplify_binary_right_assoc(head, tail, cur, OPERATOR_EXPONENT);
     // Handle binary operators in order of precedence
+
     cur = *head;
-    simplify_binary(head, tail, cur, OPERATOR_DIVISION | OPERATOR_MULTIPLICAITON | OPERATOR_MODULO);
-    simplify_binary(head, tail, cur, OPERATOR_PLUS | OPERATOR_MINUS);
-    simplify_binary(head, tail, cur, OPERATOR_EQUAL);
+    simplify_binary_left_assoc(head, tail, cur, OPERATOR_DIVISION | OPERATOR_MULTIPLICAITON | OPERATOR_MODULO);
+    simplify_binary_left_assoc(head, tail, cur, OPERATOR_PLUS | OPERATOR_MINUS);
+    simplify_binary_left_assoc(head, tail, cur, OPERATOR_EQUAL);
 
     return (*head) ? (*head)->value : 0;
 }
@@ -83,7 +84,7 @@ void simplify_unary(struct op_node **head, struct op_node **tail, struct op_node
 }
 
 // Simplify binary operators like +, -, *, /, %
-void simplify_binary(struct op_node **head, struct op_node **tail, struct op_node *cur, int type) {
+void simplify_binary_left_assoc(struct op_node **head, struct op_node **tail, struct op_node *cur, int type) {
     while (cur) {
         if (is_operator(cur) && (cur->op_type & type)) {
             long double result;
@@ -102,6 +103,29 @@ void simplify_binary(struct op_node **head, struct op_node **tail, struct op_nod
             cur = cur->next;
         }
     }
+}
+
+void simplify_binary_right_assoc(struct op_node **head, struct op_node **tail, struct op_node *cur, int type)
+{
+    while (cur) {
+        if (is_operator(cur) && (cur->op_type & type)) {
+            long double result;
+           //this is arithmetic expression evaluators
+            perform_operation(cur, &result);
+            cur->op_type = NUMBER;
+            cur->value = result;
+            struct op_node *temp1 = cur->prev;
+            struct op_node *temp2 = cur->next;
+            // Re-link the list
+            cur = cur->next->next;
+            remove_node(head, tail, temp1);
+            remove_node(head, tail, temp2);
+        }
+         else {
+            cur = cur->prev;
+        }
+    }
+
 }
 
 // Evaluate all nested expressions recursively

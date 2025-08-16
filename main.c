@@ -8,10 +8,9 @@ int main() {
     char expr[MAX_OPERAND];
     int n;
     int rc;
-    while ((n = get_expr(expr)) > 0) {
+    while ((n = get_statement(expr)) > 0) {
         get_op_list(expr, &head, &tail, 0, n - 1);
         evaluate_expr(&head, &tail);
-        print_var();
         head = tail = NULL;
     }
     free_list(head, tail);

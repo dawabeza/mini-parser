@@ -5,7 +5,7 @@
 #include <math.h>
 #include <string.h>
 
-#define MAX_OPERAND 1000
+#define MAX_OPERAND 10000
 #define INVALID_VALUE 0
 #define MAX_VAR_SIZE 100
 
@@ -18,6 +18,7 @@ enum op_type {
     OPERATOR_DIVISION = (1 << 5),
     OPERATOR_MODULO = (1 << 6),
     OPERATOR_EQUAL = (1 << 7),
+    OPERATOR_EXPONENT = (1 << 8),
     FUNC,
     VAR,
     NONE,

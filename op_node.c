@@ -85,6 +85,7 @@ void print_list(struct op_node *head) {
                 case OPERATOR_MINUS:          printf(" - "); break;
                 case OPERATOR_MODULO:         printf(" %% "); break;
                 case OPERATOR_EQUAL:          printf(" = "); break;
+                case OPERATOR_EXPONENT:       printf(" ^ "); break;
                 default: break;
             }
         }
@@ -114,6 +115,7 @@ enum op_type get_op_type(char c) {
         case '-': return OPERATOR_MINUS;
         case '%': return OPERATOR_MODULO;
         case '=': return OPERATOR_EQUAL;
+        case '^': return OPERATOR_EXPONENT;
         default:  return NONE;
     }
 }
@@ -123,6 +125,6 @@ bool is_operator(struct op_node *node) {
     if (!node) return true;  // Treat NULL as operator for error handling
     return       node->op_type == OPERATOR_MULTIPLICAITON || node->op_type == OPERATOR_DIVISION ||
                  node->op_type ==  OPERATOR_EQUAL || node->op_type ==  OPERATOR_PLUS  || 
-                 node->op_type == OPERATOR_MINUS;
+                 node->op_type == OPERATOR_MINUS || node->op_type == OPERATOR_EXPONENT;
 }
 

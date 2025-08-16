@@ -5,13 +5,12 @@
 
 void execute()
 {
-    int statement_start = 0;
     char statement[MAX_OPERAND];
     int statement_end;
     while ((statement_end = get_statement(statement)) != -1) {
-        execute_statement(statement, statement_start, statement_end - 1);
-        statement_start = statement_end +  1;
+        execute_statement(statement, 0, statement_end - 1);
     }
+    print_var();
 }
 
 void execute_statement(char *statement, int statement_start, int statement_end)

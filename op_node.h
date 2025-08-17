@@ -32,6 +32,8 @@ struct op_node {
     char name[MAX_VAR_SIZE];
     long double value;
     enum op_type op_type;
+    int line;
+    int line_col;
 };
 
 

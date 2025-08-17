@@ -6,7 +6,7 @@
 #include <math.h>
 
 char *math_funcs[] = {"sin", "cos", "tan", "asin", "acos", "atan", "sinh", 
-                          "cosh", "tanh", "exp", "ln", "log", "sqrt", "pow", "abs"};
+                          "cosh", "tanh", "exp", "ln", "log", "sqrt", "pow", "abs", "print"};
 
 
 struct symb_const symb_map[] = { 
@@ -93,6 +93,7 @@ int handle_var(char *expr, struct op_node **head, struct op_node **tail, int sta
     if (is_func(var_name) || is_symb_const(var_name)) {
         return -1;
     }
+
     struct op_node *new_node = malloc(sizeof(struct op_node));
     long double val = INVALID_VALUE;
     int index;
@@ -288,6 +289,8 @@ int find_var(char *var_name)
 
 void print_var()
 {
+    printf("\n");
+    
     for (int i = 0; i < var_namep; i++) {
         if (var_name_map[i].var_name[0] != '\0') {
             printf("%s: %Lf  ", var_name_map[i].var_name, var_name_map[i].val);
@@ -314,6 +317,8 @@ long double func_call(char *func_name, long double arg1)
     if (strcmp(func_name, "log") == 0) return log10(arg1);
     if (strcmp(func_name, "sqrt") == 0) return sqrt(arg1);
 
+    if (strcmp(func_name, "print") == 0) 
+        printf("%Lf\n", arg1);
     return 0;
 }
 

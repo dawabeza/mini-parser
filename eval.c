@@ -27,7 +27,6 @@ long double evaluate_expr(struct op_node **head, struct op_node **tail) {
     simplify_binary_left_assoc(head, tail, cur, OPERATOR_DIVISION | OPERATOR_MULTIPLICAITON | OPERATOR_MODULO);
     simplify_binary_left_assoc(head, tail, cur, OPERATOR_PLUS | OPERATOR_MINUS);
     simplify_binary_left_assoc(head, tail, cur, OPERATOR_EQUAL);
-
     return (*head) ? (*head)->value : 0;
 }
 
